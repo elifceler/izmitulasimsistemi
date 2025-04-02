@@ -120,8 +120,9 @@ def arayuzu_baslat():
             text_output.tag_config("taksi_kelime", foreground="darkorange", font=("Arial", 10, "bold"))
             text_output.tag_config("taksi_blok", foreground="darkorange", font=("Arial", 10))
 
-            text_output.insert(tk.END, f"📍 Başlangıç Durağı: {bas_durak.ad}\n", "alt_baslik")
-            text_output.insert(tk.END, f"🎯 Hedef Durağı: {hedef_durak.ad}\n", "alt_baslik")
+            text_output.insert(tk.END, f"📍 Başlangıç Durağı: {bas_durak.ad} ➝ {hedef_durak.ad} (En Ekonomik)\n",
+                               "alt_baslik")
+
             toplam_sure = sum([step['sure'] for step in rota_adimlari])
             toplam_mesafe = sum([step['mesafe'] for step in rota_adimlari])
 
@@ -151,7 +152,13 @@ def arayuzu_baslat():
                     if ucret != indirimli_ucret:
                         text_output.insert(tk.END, f"   🎫 İndirimli: {indirimli_ucret:.2f} TL\n", "odeme")
                     text_output.insert(tk.END, f"   💳 {odeme_sonucu}\n", "odeme")
+
+                    # ✅ Teşvik varsa mesajı göster
+                    if ucret == 0.00:
+                        text_output.insert(tk.END, "   🔄 Aktarma teşviki uygulanmıştır.\n", "normal")
+
                     text_output.insert(tk.END, "\n")
+
 
                 elif adim.get("tip") == "taksi":
                     # Taksi adımı ayrı işleniyor
@@ -169,7 +176,6 @@ def arayuzu_baslat():
             alternatifler = rota_hesaplayici.rota_alternatifleri((baslat_lat, baslat_lon), (hedef_lat, hedef_lon))
 
             # En az aktarmalı rotayı bul
-            en_az_aktarmali_baslik = None
             en_az_aktarma_sayisi = float('inf')
 
             for baslik, adimlar in alternatifler.items():
@@ -178,7 +184,6 @@ def arayuzu_baslat():
 
                 for adim in adimlar:
                     if "kaynak" in adim and "hedef" in adim:
-                        kaynak = ulasim_grafi.duraklar[adim["kaynak"]]
                         hedef = ulasim_grafi.duraklar[adim["hedef"]]
                         mevcut_tip = hedef.arac_tipi  # veya kaynak.arac_tipi de kullanılabilir
 
@@ -189,32 +194,30 @@ def arayuzu_baslat():
 
                 if aktarma_sayisi < en_az_aktarma_sayisi:
                     en_az_aktarma_sayisi = aktarma_sayisi
-                    en_az_aktarmali_baslik = baslik
 
-            # Alternatif rotaları yazdır
+            # Alternatif rotaları yazdır*
             text_output.insert(tk.END, "\nAlternatif Rotalar:\n", "alternatif")
 
             rota_ozetleri = {}
             for baslik, adimlar in alternatifler.items():
-                aktarma_sayisi = len(adimlar) - 1
-                # Özeti oluştur
                 if "Taksi" in baslik:
-                    # Tahmini süreyi ve mesafeyi rota yazısındaki km bilgisinden almaya çalış
+                    # Taksi rotasında direkt 0 aktarma sayısı
+                    aktarma_sayisi = 0
                     taksi_mesafe = 0
                     for a in adimlar:
                         if "Taksi ile:" in a:
                             try:
                                 taksi_mesafe = float(a.split(":")[1].strip().split()[0])
                             except:
-                                taksi_mesafe = 3  # Varsayım
+                                taksi_mesafe = 3
                             break
-                    aktarma_sayisi = 0
                     mesafe = taksi_mesafe
-                    sure = round(Taksi(None).seyahat_suresi_hesapla(mesafe))  # ✅ gerçek süreyi hesapla
+                    sure = round(Taksi(None).seyahat_suresi_hesapla(mesafe))
                 else:
-                    aktarma_sayisi = len(adimlar) - 1
-                    mesafe = sum(1 for a in adimlar if "➝" in a)  # yaklaşık geçiş sayısı
-                    sure = mesafe * 3  # ortalama tahmin
+                    # Burada gerçek hesaplama yapılır
+                    aktarma_sayisi = hesapla_gercek_aktarma(adimlar, ulasim_grafi)
+                    mesafe = sum(1 for a in adimlar if "➝" in a)
+                    sure = mesafe * 3
 
                 rota_ozetleri[baslik] = {
                     "aktarma": aktarma_sayisi,
@@ -228,7 +231,7 @@ def arayuzu_baslat():
 
             for baslik, adimlar in alternatifler.items():
                 etiket = []
-                if baslik == min_aktarma:
+                if "Taksi" not in baslik and baslik == min_aktarma:
                     etiket.append("En Az Aktarmalı")
                 if baslik == min_mesafe:
                     etiket.append("En Kısa")
@@ -241,6 +244,10 @@ def arayuzu_baslat():
                 text_output.insert(tk.END, f"\n→ {baslik} Rota{etiket_str}:\n", "alternatif")
                 for i, adim in enumerate(adimlar, start=1):
                     text_output.insert(tk.END, f"  {i}. {adim}\n", tag_to_use)
+
+                    # 0 TL'lik aktarma teşvikini yakala
+                    if "0.00" in adim or "aktarma" in adim.lower() or "transfer" in adim.lower():
+                        text_output.insert(tk.END, "    🔄 Aktarma teşviki uygulanmıştır.\n", tag_to_use)
 
                 # Özeti göster
                 ozet = rota_ozetleri[baslik]
@@ -268,6 +275,19 @@ def arayuzu_baslat():
 
         except Exception as e:
             messagebox.showerror("Hata", str(e))
+
+    def hesapla_gercek_aktarma(adimlar, ulasim_grafi):
+        onceki_tip = None
+        aktarma = 0
+        for adim in adimlar:
+            if "kaynak" in adim and "hedef" in adim:
+                kaynak = ulasim_grafi.duraklar[adim["kaynak"]]
+                hedef = ulasim_grafi.duraklar[adim["hedef"]]
+                mevcut_tip = hedef.arac_tipi
+                if onceki_tip is not None and mevcut_tip != onceki_tip:
+                    aktarma += 1
+                onceki_tip = mevcut_tip
+        return aktarma
 
     pencere = tk.Tk()
     pencere.title("🗺️ Ulaşım Rota Planlayıcı")

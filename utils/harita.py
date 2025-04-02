@@ -1,8 +1,6 @@
 import folium
 import webbrowser
 import os
-from models.durak import Durak, UlasimGrafigi
-
 
 def haritada_goster(rota_adimlari, ulasim_grafi, harita_dosyasi="rota_haritasi.html"):
     if not rota_adimlari:

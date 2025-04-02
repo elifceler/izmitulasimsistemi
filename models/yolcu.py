@@ -18,8 +18,7 @@ class Yolcu(ABC):
         self.cuzdan = cuzdan
 
     @abstractmethod
-    def ucret_indirimi(self, ucret):
-        """Alt sınıflar tarafından uygulanması gereken soyut metod."""
+    def ucret_indirimi(self, ucret, arac_tipi=None):
         pass
 
 
@@ -28,9 +27,8 @@ class GenelYolcu(Yolcu):
     def __init__(self, isim, yas, cuzdan):
         super().__init__(isim, yas, YolcuTipi.GENEL, cuzdan)
 
-    def ucret_indirimi(self, ucret):
-        return ucret  # İndirim yok
-
+    def ucret_indirimi(self, ucret, arac_tipi=None):
+        return ucret
 
 class Ogrenci(Yolcu):
     INDIRIM_ORANI = 0.50
@@ -38,7 +36,9 @@ class Ogrenci(Yolcu):
     def __init__(self, isim, yas, cuzdan):
         super().__init__(isim, yas, YolcuTipi.OGRENCI, cuzdan)
 
-    def ucret_indirimi(self, ucret):
+    def ucret_indirimi(self, ucret, arac_tipi=None):
+        if arac_tipi == "taksi":
+            return ucret  # Takside indirim yok
         return ucret * (1 - self.INDIRIM_ORANI)
 
 
@@ -63,7 +63,9 @@ class Ogretmen(Yolcu):
     def __init__(self, isim, yas, cuzdan):
         super().__init__(isim, yas, YolcuTipi.OGRETMEN, cuzdan)
 
-    def ucret_indirimi(self, ucret):
+    def ucret_indirimi(self, ucret, arac_tipi=None):
+        if arac_tipi == "taksi":
+            return ucret
         return ucret * (1 - self.INDIRIM_ORANI)
 
 
@@ -71,14 +73,17 @@ class SehitGaziYakini(Yolcu):
     def __init__(self, isim, yas, cuzdan):
         super().__init__(isim, yas, YolcuTipi.SEHIT_GAZI_YAKINI, cuzdan)
 
-    def ucret_indirimi(self, ucret):
-        return 0  # Ücretsiz
+    def ucret_indirimi(self, ucret, arac_tipi=None):
+        if arac_tipi == "taksi":
+            return ucret
+        return 0
 
 
 class Engelli(Yolcu):
     def __init__(self, isim, yas, cuzdan):
         super().__init__(isim, yas, YolcuTipi.ENGELLI, cuzdan)
 
-    def ucret_indirimi(self, ucret):
-        return 0  # Ücretsiz*
-
+    def ucret_indirimi(self, ucret, arac_tipi=None):
+        if arac_tipi == "taksi":
+            return ucret
+        return 0
