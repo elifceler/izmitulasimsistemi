@@ -142,7 +142,7 @@ def arayuzu_baslat():
                     kaynak = ulasim_grafi.duraklar[adim["kaynak"]]
                     hedef = ulasim_grafi.duraklar[adim["hedef"]]
                     ucret = adim["ucret"]
-                    indirimli_ucret = yolcu.ucret_indirimi(ucret)
+                    indirimli_ucret = yolcu.ucret_indirimi(ucret, arac_tipi="toplu_tasima")
                     odeme_sonucu = yolcu.cuzdan.odeme_yap(indirimli_ucret)
                     toplam_ucret += indirimli_ucret
 

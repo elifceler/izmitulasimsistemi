@@ -50,10 +50,10 @@ class Yasli(Yolcu):
         super().__init__(isim, yas, YolcuTipi.YASLI, cuzdan)
         self.kalan_ucretsiz_hak = self.UCRETSIZ_HAK_SAYISI
 
-    def ucret_indirimi(self, ucret):
-        if self.kalan_ucretsiz_hak > 0:
+    def ucret_indirimi(self, ucret, arac_tipi=None):
+        if arac_tipi != "taksi" and self.kalan_ucretsiz_hak > 0:
             self.kalan_ucretsiz_hak -= 1
-            return 0  # Ücretsiz hak düşülüyor
+            return 0  # Ücretsiz geçiş
         return ucret * (1 - self.INDIRIM_ORANI)
 
 
