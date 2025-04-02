@@ -1,5 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox, scrolledtext
+import os
+global_yolcu = None
+
+dosya_yolu = r"C:\Users\ASUS1\PycharmProjects\PythonProject6\data\stops.json"
 
 # services klasöründen
 from models.veri import VeriOkuyucu
@@ -13,7 +17,6 @@ from models.yolcu import YolcuTipi, GenelYolcu, Ogrenci, Yasli, Ogretmen, SehitG
 from models.odeme import Cuzdan, KentkartOdeme, MobilOdeme, KrediKartiOdeme, NakitOdeme
 from models.arac import Taksi
 
-dosya_yolu = r"C:\\Users\\ASUS1\\Desktop\\prolab2-1.2\\proje-yeni\\ulasimsistemi\\stops.json"
 global_harita_verisi = {}
 
 def haritayi_ac():
@@ -24,7 +27,9 @@ def haritayi_ac():
 
 
 def arayuzu_baslat():
+
     def hesapla():
+        global global_yolcu
         try:
             baslat_lat = float(entry_baslat_lat.get())
             baslat_lon = float(entry_baslat_lon.get())
@@ -57,7 +62,12 @@ def arayuzu_baslat():
             elif yolcu_tipi == YolcuTipi.OGRENCI:
                 yolcu = Ogrenci(isim, yas, cuzdan)
             elif yolcu_tipi == YolcuTipi.YASLI:
-                yolcu = Yasli(isim, yas, cuzdan)
+                if global_yolcu and isinstance(global_yolcu, Yasli):
+                    yolcu = global_yolcu
+                    yolcu.cuzdan = cuzdan
+                else:
+                    yolcu = Yasli(isim, yas, cuzdan)
+                    global_yolcu = yolcu
             elif yolcu_tipi == YolcuTipi.OGRETMEN:
                 yolcu = Ogretmen(isim, yas, cuzdan)
             elif yolcu_tipi == YolcuTipi.SEHIT_GAZI_YAKINI:
@@ -239,6 +249,10 @@ def arayuzu_baslat():
                                    "normal")
 
             text_output.insert(tk.END, f"\n💰 Toplam Ulaşım Ücreti: {toplam_ucret:.2f} TL\n", "toplam")
+
+            if isinstance(yolcu, Yasli):
+                text_output.insert(tk.END, f"🎁 Kalan ücretsiz hak: {yolcu.kalan_ucretsiz_hak}\n", "odeme")
+
             text_output.insert(tk.END, "\n💼 Güncel Cüzdan Durumu:\n", "odeme")
 
             for yontem in yolcu.cuzdan.odeme_yontemleri:

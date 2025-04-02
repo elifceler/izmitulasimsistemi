@@ -25,7 +25,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_eddd7583c6d5e916bd9fe50a7f83ddc1 {
+                #map_8265d9c51c142cabb222159148a6890c {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -39,16 +39,16 @@
 <body>
     
     
-            <div class="folium-map" id="map_eddd7583c6d5e916bd9fe50a7f83ddc1" ></div>
+            <div class="folium-map" id="map_8265d9c51c142cabb222159148a6890c" ></div>
         
 </body>
 <script>
     
     
-            var map_eddd7583c6d5e916bd9fe50a7f83ddc1 = L.map(
-                "map_eddd7583c6d5e916bd9fe50a7f83ddc1",
+            var map_8265d9c51c142cabb222159148a6890c = L.map(
+                "map_8265d9c51c142cabb222159148a6890c",
                 {
-                    center: [40.78259, 29.94628],
+                    center: [40.735, 29.973],
                     crs: L.CRS.EPSG3857,
                     ...{
   "zoom": 13,
@@ -63,7 +63,7 @@
 
         
     
-            var tile_layer_3e48754d4666d3bb11159f4b86faa0f7 = L.tileLayer(
+            var tile_layer_e7f7ffdae9dff01c581368c194b654c6 = L.tileLayer(
                 "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {
   "minZoom": 0,
@@ -80,269 +80,105 @@
             );
         
     
-            tile_layer_3e48754d4666d3bb11159f4b86faa0f7.addTo(map_eddd7583c6d5e916bd9fe50a7f83ddc1);
+            tile_layer_e7f7ffdae9dff01c581368c194b654c6.addTo(map_8265d9c51c142cabb222159148a6890c);
         
     
-            var poly_line_3361e90e01c010dd03cfc020698e1c44 = L.polyline(
-                [[40.78259, 29.94628], [40.78245, 29.9461]],
-                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
-            ).addTo(map_eddd7583c6d5e916bd9fe50a7f83ddc1);
+            var poly_line_d19a1f99666e4d15df0e8d451c97369d = L.polyline(
+                [[40.735, 29.973], [40.762, 29.9655]],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "orange", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_8265d9c51c142cabb222159148a6890c);
         
     
-            var marker_e8a30d914bbf1e3b85d7373ae83df674 = L.marker(
-                [40.78259, 29.94628],
+            var marker_ae8417dcfb98618a58d95f50b5c05374 = L.marker(
+                [40.735, 29.973],
                 {
 }
-            ).addTo(map_eddd7583c6d5e916bd9fe50a7f83ddc1);
+            ).addTo(map_8265d9c51c142cabb222159148a6890c);
         
     
-            var icon_33747f31c10927309243d5e90710db31 = L.AwesomeMarkers.icon(
+            var icon_8a3f404e987a1758238c5cabaa868ff1 = L.AwesomeMarkers.icon(
                 {
-  "markerColor": "blue",
+  "markerColor": "orange",
   "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
+  "icon": "taxi",
+  "prefix": "fa",
   "extraClasses": "fa-rotate-0",
 }
             );
         
     
-        var popup_c72a39dbee7a52a8bb014489b1d075e1 = L.popup({
+        var popup_b2e9cee2c355494f3857b72387b1ca80 = L.popup({
   "maxWidth": "100%",
 });
 
         
             
-                var html_79dcf1b6e41d356105138eeb7188d3a6 = $(`<div id="html_79dcf1b6e41d356105138eeb7188d3a6" style="width: 100.0%; height: 100.0%;">Otogar (Bus) (bus)</div>`)[0];
-                popup_c72a39dbee7a52a8bb014489b1d075e1.setContent(html_79dcf1b6e41d356105138eeb7188d3a6);
+                var html_d4bcb9e16924227d04895c09892a9c13 = $(`<div id="html_d4bcb9e16924227d04895c09892a9c13" style="width: 100.0%; height: 100.0%;">Taksi Başlangıç</div>`)[0];
+                popup_b2e9cee2c355494f3857b72387b1ca80.setContent(html_d4bcb9e16924227d04895c09892a9c13);
             
         
 
-        marker_e8a30d914bbf1e3b85d7373ae83df674.bindPopup(popup_c72a39dbee7a52a8bb014489b1d075e1)
+        marker_ae8417dcfb98618a58d95f50b5c05374.bindPopup(popup_b2e9cee2c355494f3857b72387b1ca80)
         ;
 
         
     
     
-                marker_e8a30d914bbf1e3b85d7373ae83df674.setIcon(icon_33747f31c10927309243d5e90710db31);
+                marker_ae8417dcfb98618a58d95f50b5c05374.setIcon(icon_8a3f404e987a1758238c5cabaa868ff1);
             
     
-            var marker_81bf3ff22d97a510c5a9191c19a0aff2 = L.marker(
-                [40.78245, 29.9461],
-                {
-}
-            ).addTo(map_eddd7583c6d5e916bd9fe50a7f83ddc1);
-        
-    
-            var icon_1f84ee33275496fcd7bfe8523529fb8e = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "green",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_8a964b2d5aae7bba0285f306d669352b = L.popup({
-  "maxWidth": "100%",
-});
-
-        
-            
-                var html_ba2593fa520be7a60a48dc47c2a97660 = $(`<div id="html_ba2593fa520be7a60a48dc47c2a97660" style="width: 100.0%; height: 100.0%;">Otogar (Tram) (bus)</div>`)[0];
-                popup_8a964b2d5aae7bba0285f306d669352b.setContent(html_ba2593fa520be7a60a48dc47c2a97660);
-            
-        
-
-        marker_81bf3ff22d97a510c5a9191c19a0aff2.bindPopup(popup_8a964b2d5aae7bba0285f306d669352b)
-        ;
-
-        
-    
-    
-                marker_81bf3ff22d97a510c5a9191c19a0aff2.setIcon(icon_1f84ee33275496fcd7bfe8523529fb8e);
-            
-    
-            var poly_line_c2dd83159fe451f3b06d738007a11f78 = L.polyline(
-                [[40.78245, 29.9461], [40.7716, 29.9601]],
-                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
-            ).addTo(map_eddd7583c6d5e916bd9fe50a7f83ddc1);
-        
-    
-            var marker_a67d778074a25bcadf6dce5b0422e51e = L.marker(
-                [40.78245, 29.9461],
-                {
-}
-            ).addTo(map_eddd7583c6d5e916bd9fe50a7f83ddc1);
-        
-    
-            var icon_5a47fc6aa53f27940e6f64ca64057498 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "blue",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_6c992ac313b2f1f9fb8d83b81e15ac19 = L.popup({
-  "maxWidth": "100%",
-});
-
-        
-            
-                var html_98975f0390a21b8c14ebdaeebb583435 = $(`<div id="html_98975f0390a21b8c14ebdaeebb583435" style="width: 100.0%; height: 100.0%;">Otogar (Tram) (tram)</div>`)[0];
-                popup_6c992ac313b2f1f9fb8d83b81e15ac19.setContent(html_98975f0390a21b8c14ebdaeebb583435);
-            
-        
-
-        marker_a67d778074a25bcadf6dce5b0422e51e.bindPopup(popup_6c992ac313b2f1f9fb8d83b81e15ac19)
-        ;
-
-        
-    
-    
-                marker_a67d778074a25bcadf6dce5b0422e51e.setIcon(icon_5a47fc6aa53f27940e6f64ca64057498);
-            
-    
-            var marker_4f43ed1057cf14e3ee1634430eb716db = L.marker(
-                [40.7716, 29.9601],
-                {
-}
-            ).addTo(map_eddd7583c6d5e916bd9fe50a7f83ddc1);
-        
-    
-            var icon_2ae128f4ba8ea1df908fd349b88c0648 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "green",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_c4f5e4a4e76e0e3b6163940e8f76b61f = L.popup({
-  "maxWidth": "100%",
-});
-
-        
-            
-                var html_a6fe3539c23063086f2f9d8936136e8f = $(`<div id="html_a6fe3539c23063086f2f9d8936136e8f" style="width: 100.0%; height: 100.0%;">Yahya Kaptan (Tram) (tram)</div>`)[0];
-                popup_c4f5e4a4e76e0e3b6163940e8f76b61f.setContent(html_a6fe3539c23063086f2f9d8936136e8f);
-            
-        
-
-        marker_4f43ed1057cf14e3ee1634430eb716db.bindPopup(popup_c4f5e4a4e76e0e3b6163940e8f76b61f)
-        ;
-
-        
-    
-    
-                marker_4f43ed1057cf14e3ee1634430eb716db.setIcon(icon_2ae128f4ba8ea1df908fd349b88c0648);
-            
-    
-            var poly_line_55a86bbd0a5d7efa0469b861f38a075d = L.polyline(
-                [[40.7716, 29.9601], [40.762, 29.9655]],
-                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
-            ).addTo(map_eddd7583c6d5e916bd9fe50a7f83ddc1);
-        
-    
-            var marker_40f259c47310607761c8dce1ef3d1d0c = L.marker(
-                [40.7716, 29.9601],
-                {
-}
-            ).addTo(map_eddd7583c6d5e916bd9fe50a7f83ddc1);
-        
-    
-            var icon_1734d1132cea2fe49cb6245b3b56419e = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "blue",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_e8d5580b2a1cc7e47159eeb89d4b85cb = L.popup({
-  "maxWidth": "100%",
-});
-
-        
-            
-                var html_53479af15aae1e5ab642ef93fa1d02ce = $(`<div id="html_53479af15aae1e5ab642ef93fa1d02ce" style="width: 100.0%; height: 100.0%;">Yahya Kaptan (Tram) (tram)</div>`)[0];
-                popup_e8d5580b2a1cc7e47159eeb89d4b85cb.setContent(html_53479af15aae1e5ab642ef93fa1d02ce);
-            
-        
-
-        marker_40f259c47310607761c8dce1ef3d1d0c.bindPopup(popup_e8d5580b2a1cc7e47159eeb89d4b85cb)
-        ;
-
-        
-    
-    
-                marker_40f259c47310607761c8dce1ef3d1d0c.setIcon(icon_1734d1132cea2fe49cb6245b3b56419e);
-            
-    
-            var marker_67502288ab0898d03d936019ba0e0e75 = L.marker(
+            var marker_15c4b5f275c78bb210146dd722411567 = L.marker(
                 [40.762, 29.9655],
                 {
 }
-            ).addTo(map_eddd7583c6d5e916bd9fe50a7f83ddc1);
+            ).addTo(map_8265d9c51c142cabb222159148a6890c);
         
     
-            var icon_fd3edde396fcb167cba8046e371ac754 = L.AwesomeMarkers.icon(
+            var icon_d9172120f29d58c0e5381300b8633f76 = L.AwesomeMarkers.icon(
                 {
-  "markerColor": "green",
+  "markerColor": "orange",
   "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
+  "icon": "flag",
+  "prefix": "fa",
   "extraClasses": "fa-rotate-0",
 }
             );
         
     
-        var popup_7a56722da280b1e84cda3c767afe158e = L.popup({
+        var popup_83d7d1a3beefed5c7eee3c642b8ed6e6 = L.popup({
   "maxWidth": "100%",
 });
 
         
             
-                var html_936d40b5856e0df26819479b46a64cf4 = $(`<div id="html_936d40b5856e0df26819479b46a64cf4" style="width: 100.0%; height: 100.0%;">Sekapark (Tram) (tram)</div>`)[0];
-                popup_7a56722da280b1e84cda3c767afe158e.setContent(html_936d40b5856e0df26819479b46a64cf4);
+                var html_b44683cf00913f10628be9ff0b4707a6 = $(`<div id="html_b44683cf00913f10628be9ff0b4707a6" style="width: 100.0%; height: 100.0%;">Taksi Bitiş</div>`)[0];
+                popup_83d7d1a3beefed5c7eee3c642b8ed6e6.setContent(html_b44683cf00913f10628be9ff0b4707a6);
             
         
 
-        marker_67502288ab0898d03d936019ba0e0e75.bindPopup(popup_7a56722da280b1e84cda3c767afe158e)
+        marker_15c4b5f275c78bb210146dd722411567.bindPopup(popup_83d7d1a3beefed5c7eee3c642b8ed6e6)
         ;
 
         
     
     
-                marker_67502288ab0898d03d936019ba0e0e75.setIcon(icon_fd3edde396fcb167cba8046e371ac754);
+                marker_15c4b5f275c78bb210146dd722411567.setIcon(icon_d9172120f29d58c0e5381300b8633f76);
             
     
-            var poly_line_540258566509707cebbeba3c083d668c = L.polyline(
+            var poly_line_fd8224e1c4ba13f08b239d5d1a27ca02 = L.polyline(
                 [[40.762, 29.9655], [40.7652, 29.9619]],
                 {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
-            ).addTo(map_eddd7583c6d5e916bd9fe50a7f83ddc1);
+            ).addTo(map_8265d9c51c142cabb222159148a6890c);
         
     
-            var marker_f8a1820c2b91e4cbeba59f70b86a69fb = L.marker(
+            var marker_7ee4ab116c0075174f9e7b8a3a293898 = L.marker(
                 [40.762, 29.9655],
                 {
 }
-            ).addTo(map_eddd7583c6d5e916bd9fe50a7f83ddc1);
+            ).addTo(map_8265d9c51c142cabb222159148a6890c);
         
     
-            var icon_38b675e62f1540d2f125981ca02a947c = L.AwesomeMarkers.icon(
+            var icon_fd00c3e694cfc9d840cb21573a24cfe7 = L.AwesomeMarkers.icon(
                 {
   "markerColor": "blue",
   "iconColor": "white",
@@ -353,34 +189,34 @@
             );
         
     
-        var popup_7430c27ff8da33424ef60b0e0292ef4b = L.popup({
+        var popup_72c8347d700052f24f62ffd5c6ba745d = L.popup({
   "maxWidth": "100%",
 });
 
         
             
-                var html_543176ca72ec569b2904857494b8e922 = $(`<div id="html_543176ca72ec569b2904857494b8e922" style="width: 100.0%; height: 100.0%;">Sekapark (Tram) (tram)</div>`)[0];
-                popup_7430c27ff8da33424ef60b0e0292ef4b.setContent(html_543176ca72ec569b2904857494b8e922);
+                var html_0dc36b87f0d4881523c04e4fb23455c2 = $(`<div id="html_0dc36b87f0d4881523c04e4fb23455c2" style="width: 100.0%; height: 100.0%;">Sekapark (Tram) (tram)</div>`)[0];
+                popup_72c8347d700052f24f62ffd5c6ba745d.setContent(html_0dc36b87f0d4881523c04e4fb23455c2);
             
         
 
-        marker_f8a1820c2b91e4cbeba59f70b86a69fb.bindPopup(popup_7430c27ff8da33424ef60b0e0292ef4b)
+        marker_7ee4ab116c0075174f9e7b8a3a293898.bindPopup(popup_72c8347d700052f24f62ffd5c6ba745d)
         ;
 
         
     
     
-                marker_f8a1820c2b91e4cbeba59f70b86a69fb.setIcon(icon_38b675e62f1540d2f125981ca02a947c);
+                marker_7ee4ab116c0075174f9e7b8a3a293898.setIcon(icon_fd00c3e694cfc9d840cb21573a24cfe7);
             
     
-            var marker_7a5d57f84da320f0935105a3f245ab6e = L.marker(
+            var marker_9df8e5180969ef7c5f76c3497ae5e5b2 = L.marker(
                 [40.7652, 29.9619],
                 {
 }
-            ).addTo(map_eddd7583c6d5e916bd9fe50a7f83ddc1);
+            ).addTo(map_8265d9c51c142cabb222159148a6890c);
         
     
-            var icon_a110ac754762e5aaff63f037562ac724 = L.AwesomeMarkers.icon(
+            var icon_48e7cb1390755416d9c66f3604f20373 = L.AwesomeMarkers.icon(
                 {
   "markerColor": "green",
   "iconColor": "white",
@@ -391,24 +227,106 @@
             );
         
     
-        var popup_9ab6970cb228af6e6630210b46636a7c = L.popup({
+        var popup_fbddfe425e9db89f2afce3cef34696e2 = L.popup({
   "maxWidth": "100%",
 });
 
         
             
-                var html_b448c7c593b433234014f48f361563e9 = $(`<div id="html_b448c7c593b433234014f48f361563e9" style="width: 100.0%; height: 100.0%;">Sekapark (Bus) (tram)</div>`)[0];
-                popup_9ab6970cb228af6e6630210b46636a7c.setContent(html_b448c7c593b433234014f48f361563e9);
+                var html_95c87e61d6ca8266be344d4bf0e2cb43 = $(`<div id="html_95c87e61d6ca8266be344d4bf0e2cb43" style="width: 100.0%; height: 100.0%;">Sekapark (Bus) (tram)</div>`)[0];
+                popup_fbddfe425e9db89f2afce3cef34696e2.setContent(html_95c87e61d6ca8266be344d4bf0e2cb43);
             
         
 
-        marker_7a5d57f84da320f0935105a3f245ab6e.bindPopup(popup_9ab6970cb228af6e6630210b46636a7c)
+        marker_9df8e5180969ef7c5f76c3497ae5e5b2.bindPopup(popup_fbddfe425e9db89f2afce3cef34696e2)
         ;
 
         
     
     
-                marker_7a5d57f84da320f0935105a3f245ab6e.setIcon(icon_a110ac754762e5aaff63f037562ac724);
+                marker_9df8e5180969ef7c5f76c3497ae5e5b2.setIcon(icon_48e7cb1390755416d9c66f3604f20373);
+            
+    
+            var poly_line_6725ef7ef7a1f4a49cd063b108fc69a9 = L.polyline(
+                [[40.7652, 29.9619], [40.77788, 29.94991]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "gray", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_8265d9c51c142cabb222159148a6890c);
+        
+    
+            var marker_2b90d42347effbb8d0cdef22ef4597b4 = L.marker(
+                [40.7652, 29.9619],
+                {
+}
+            ).addTo(map_8265d9c51c142cabb222159148a6890c);
+        
+    
+            var icon_ba5aef9477658cea43479d4bded65f00 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9753a1b32440efe581d93a328d20be82 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b397949b9dc5f46d659466b3986f5b87 = $(`<div id="html_b397949b9dc5f46d659466b3986f5b87" style="width: 100.0%; height: 100.0%;">Sekapark (Bus) (bus)</div>`)[0];
+                popup_9753a1b32440efe581d93a328d20be82.setContent(html_b397949b9dc5f46d659466b3986f5b87);
+            
+        
+
+        marker_2b90d42347effbb8d0cdef22ef4597b4.bindPopup(popup_9753a1b32440efe581d93a328d20be82)
+        ;
+
+        
+    
+    
+                marker_2b90d42347effbb8d0cdef22ef4597b4.setIcon(icon_ba5aef9477658cea43479d4bded65f00);
+            
+    
+            var marker_9b88745b3cebf559658e28eddf281b48 = L.marker(
+                [40.77788, 29.94991],
+                {
+}
+            ).addTo(map_8265d9c51c142cabb222159148a6890c);
+        
+    
+            var icon_30d641eee6bbe1145247a2aad733c7f9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c35d43a1001022ad32fd1f2e6a2d573c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1c40b10367fefe9336a69bde87b69aa4 = $(`<div id="html_1c40b10367fefe9336a69bde87b69aa4" style="width: 100.0%; height: 100.0%;">Symbol AVM (Bus) (bus)</div>`)[0];
+                popup_c35d43a1001022ad32fd1f2e6a2d573c.setContent(html_1c40b10367fefe9336a69bde87b69aa4);
+            
+        
+
+        marker_9b88745b3cebf559658e28eddf281b48.bindPopup(popup_c35d43a1001022ad32fd1f2e6a2d573c)
+        ;
+
+        
+    
+    
+                marker_9b88745b3cebf559658e28eddf281b48.setIcon(icon_30d641eee6bbe1145247a2aad733c7f9);
             
 </script>
 </html>

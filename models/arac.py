@@ -137,3 +137,12 @@ class Taksi(Arac):
         """
         return mesafe > cls.MIN_TAKSI_MESAFE
 
+class Scooter(Arac):
+    ORT_HIZ = 25
+    UCRET = 1.5
+
+    def seyahat_suresi_hesapla(self, mesafe):
+        return (mesafe / self.ORT_HIZ) * 60
+
+    def ucret_hesapla(self, mesafe):
+        return mesafe * self.UCRET

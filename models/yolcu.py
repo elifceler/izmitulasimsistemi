@@ -44,11 +44,16 @@ class Ogrenci(Yolcu):
 
 class Yasli(Yolcu):
     INDIRIM_ORANI = 0.20
+    UCRETSIZ_HAK_SAYISI = 20
 
     def __init__(self, isim, yas, cuzdan):
         super().__init__(isim, yas, YolcuTipi.YASLI, cuzdan)
+        self.kalan_ucretsiz_hak = self.UCRETSIZ_HAK_SAYISI
 
     def ucret_indirimi(self, ucret):
+        if self.kalan_ucretsiz_hak > 0:
+            self.kalan_ucretsiz_hak -= 1
+            return 0  # Ücretsiz hak düşülüyor
         return ucret * (1 - self.INDIRIM_ORANI)
 
 
@@ -76,3 +81,4 @@ class Engelli(Yolcu):
 
     def ucret_indirimi(self, ucret):
         return 0  # Ücretsiz*
+
