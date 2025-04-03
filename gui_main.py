@@ -3,7 +3,7 @@ from tkinter import messagebox, scrolledtext
 import os
 global_yolcu = None
 
-dosya_yolu = r"C:\Users\ASUS1\PycharmProjects\PythonProject6\data\stops.json"
+dosya_yolu = r"C:\Users\batus\PycharmProjects\prolab_yeni\data\stops_cift_yonlu.json"
 
 # services klasöründen
 from models.veri import VeriOkuyucu

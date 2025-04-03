@@ -1,5 +1,3 @@
-import json
-from models.durak import Durak, UlasimGrafigi
 import os
 import json
 from models.durak import Durak, UlasimGrafigi
@@ -74,7 +72,7 @@ class VeriOkuyucu:
 
             ulasim_grafi.durak_ekle(durak)
 
-        # 2️⃣ nextStops ile bağlantıları ekle (tek yönlü!)
+        # 2️⃣ nextStops ile bağlantıları ekle (çift yönlü!)
         for d in self.veri.get("duraklar", []):
             kaynak_id = d["id"]
             for next_stop in d.get("nextStops", []):
@@ -82,7 +80,9 @@ class VeriOkuyucu:
                 mesafe = next_stop["mesafe"]
                 sure = next_stop["sure"]
                 ucret = next_stop["ucret"]
+                # ✅ Artık bağlantılar çift yönlü olarak ekleniyor
                 ulasim_grafi.baglanti_ekle(kaynak_id, hedef_id, mesafe, sure, ucret)
+                ulasim_grafi.baglanti_ekle(hedef_id, kaynak_id, mesafe, sure, ucret)
 
         # 3️⃣ Transfer bağlantılarını ekle (negatif ücretli olabilir)
         for d in self.veri.get("duraklar", []):

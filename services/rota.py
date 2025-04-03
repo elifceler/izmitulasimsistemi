@@ -12,16 +12,13 @@ class RotaHesaplayici:
         """
         self.ulasim_grafi = ulasim_grafi
 
-    def en_yakin_durak_bul(self, enlem, boylam):
-        """
-        Kullanıcının konumuna en yakın durağı bulan fonksiyon.
-        :param enlem: Kullanıcının enlem değeri.
-        :param boylam: Kullanıcının boylam değeri.
-        :return: En yakın durak nesnesi ve mesafesi.
-        """
+    def en_yakin_durak_bul(self, enlem, boylam, arac_tipi=None):
         en_yakin_durak, mesafe = None, float('inf')
 
         for durak in self.ulasim_grafi.duraklar.values():
+            if arac_tipi and durak.arac_tipi != arac_tipi:
+                continue  # Yalnızca istenen tipteki durakları dikkate al
+
             uzaklik = Taksi.haversine_mesafe_km(enlem, boylam, durak.enlem, durak.boylam)
             if uzaklik < mesafe:
                 mesafe = uzaklik
@@ -51,6 +48,8 @@ class RotaHesaplayici:
                 break
 
             for komsu, mesafe, _, _, _ in self.ulasim_grafi.duraklar[mevcut_durak_id].komsular:
+                print(f"🔍 İncelenen komşu: {komsu.durak_id}, türü: {komsu.arac_tipi}")
+
                 if arac_tipi and (komsu.arac_tipi is None or komsu.arac_tipi != arac_tipi):
 
                     continue  # Uygun tip değilse atla
@@ -129,10 +128,12 @@ class RotaHesaplayici:
             # 🚫 Beklenen araç türü kontrolü
             if beklenen_tur:
                 for adim in yol:
-                    kaynak_tur = self.ulasim_grafi.duraklar[adim['kaynak']].arac_tipi
-                    hedef_tur = self.ulasim_grafi.duraklar[adim['hedef']].arac_tipi
-                    if kaynak_tur != beklenen_tur or hedef_tur != beklenen_tur:
-                        return  # ❌ Araç tipi uyumsuzsa bu rotayı listeleme
+                    if not adim['transfer_mi']:  # ⛔ Sadece gerçek ulaşım adımlarında kontrol et
+                        kaynak_tur = self.ulasim_grafi.duraklar[adim['kaynak']].arac_tipi
+                        hedef_tur = self.ulasim_grafi.duraklar[adim['hedef']].arac_tipi
+                        if kaynak_tur != beklenen_tur or hedef_tur != beklenen_tur:
+                            print(f"⛔ Uygunsuz adım: {kaynak_tur} → {hedef_tur}")
+                            return
 
             rota = []
             ilk_durak = self.ulasim_grafi.duraklar[yol[0]['kaynak']]
@@ -154,10 +155,43 @@ class RotaHesaplayici:
 
             rota_sonuclari[rota_adi] = rota
 
-        # 1️⃣ Sadece Otobüs
-        mesafe_otobus, yol_otobus = self.en_kisa_yol_hesapla(bas_durak.durak_id, hedef_durak.durak_id, arac_tipi="bus")
-        if yol_otobus:
-            rota_olustur(yol_otobus, "Sadece Otobüs", beklenen_tur="bus")
+        # 1️⃣ Sadece Otobüs (yeni mantıkla)
+        en_yakin_bus_bas, mesafe_bus_bas = self.en_yakin_durak_bul(*baslangic_konum, arac_tipi="bus")
+        en_yakin_bus_hedef, mesafe_bus_hedef = self.en_yakin_durak_bul(*hedef_konum, arac_tipi="bus")
+
+        if en_yakin_bus_bas.arac_tipi == "bus" and en_yakin_bus_hedef.arac_tipi == "bus":
+            mesafe_otobus, yol_otobus = self.en_kisa_yol_hesapla(
+                en_yakin_bus_bas.durak_id, en_yakin_bus_hedef.durak_id, arac_tipi="bus"
+            )
+
+            if yol_otobus:
+                rota = []
+
+                # Başlangıçtan en yakın otobüs durağına yürüyüş
+                yurume_mesafe_bas = Taksi.haversine_mesafe_km(
+                    *baslangic_konum, en_yakin_bus_bas.enlem, en_yakin_bus_bas.boylam
+                )
+                if yurume_mesafe_bas > 0.05:
+                    rota.append(
+                        f"Başlangıç ➝ {en_yakin_bus_bas.ad} (🚶 Yürüyerek {yurume_mesafe_bas:.2f} km)"
+                    )
+
+                # Otobüs güzergahı
+                for adim in yol_otobus:
+                    kaynak_ad = self.ulasim_grafi.duraklar[adim['kaynak']].ad
+                    hedef_ad = self.ulasim_grafi.duraklar[adim['hedef']].ad
+                    rota.append(f"{kaynak_ad} ➝ {hedef_ad}")
+
+                # Hedef durağından hedef konuma yürüyüş
+                yurume_mesafe_hedef = Taksi.haversine_mesafe_km(
+                    en_yakin_bus_hedef.enlem, en_yakin_bus_hedef.boylam, *hedef_konum
+                )
+                if yurume_mesafe_hedef > 0.05:
+                    rota.append(
+                        f"{en_yakin_bus_hedef.ad} ➝ Hedef (🚶 Yürüyerek {yurume_mesafe_hedef:.2f} km)"
+                    )
+
+                rota_sonuclari["Sadece Otobüs"] = rota
 
         # 2️⃣ Sadece Tramvay
         mesafe_tramvay, yol_tramvay = self.en_kisa_yol_hesapla(bas_durak.durak_id, hedef_durak.durak_id,

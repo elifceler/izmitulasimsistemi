@@ -28,15 +28,19 @@ class UlasimGrafigi:
         self.duraklar[durak.durak_id] = durak
 
     def baglanti_ekle(self, durak_id1, durak_id2, mesafe, sure, ucret, transfer_mi=False):
-        """İki durak arasında yönlü bağlantı oluşturur."""
+        """
+        İki durak arasında yönlü bağlantı oluşturur. Aynı bağlantı tekrar eklenmez.
+        """
         if durak_id1 in self.duraklar and durak_id2 in self.duraklar:
-            self.duraklar[durak_id1].ekle_komsu(
-                self.duraklar[durak_id2],
-                mesafe,
-                sure,
-                ucret,
-                transfer_mi
-            )
+            durak1 = self.duraklar[durak_id1]
+            durak2 = self.duraklar[durak_id2]
+
+            # 🔁 Aynı bağlantı zaten varsa tekrar ekleme
+            for komsu, _, _, _, _ in durak1.komsular:
+                if komsu.durak_id == durak_id2:
+                    return  # Zaten eklenmiş, çıkıyoruz
+
+            durak1.ekle_komsu(durak2, mesafe, sure, ucret, transfer_mi)
 
     def __repr__(self):
         return "\n".join([f"{durak}: {durak.komsular}" for durak in self.duraklar.values()])
