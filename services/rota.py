@@ -193,11 +193,35 @@ class RotaHesaplayici:
 
                 rota_sonuclari["Sadece Otobüs"] = rota
 
-        # 2️⃣ Sadece Tramvay
-        mesafe_tramvay, yol_tramvay = self.en_kisa_yol_hesapla(bas_durak.durak_id, hedef_durak.durak_id,
-                                                               arac_tipi="tram")
-        if yol_tramvay:
-            rota_olustur(yol_tramvay, "Sadece Tramvay", beklenen_tur="tram")
+        # 2️⃣ Sadece Tramvay (yeni mantıkla)
+        en_yakin_tram_bas, mesafe_tram_bas = self.en_yakin_durak_bul(*baslangic_konum, arac_tipi="tram")
+        en_yakin_tram_hedef, mesafe_tram_hedef = self.en_yakin_durak_bul(*hedef_konum, arac_tipi="tram")
+
+        if en_yakin_tram_bas.arac_tipi == "tram" and en_yakin_tram_hedef.arac_tipi == "tram":
+            mesafe_tramvay, yol_tramvay = self.en_kisa_yol_hesapla(
+                en_yakin_tram_bas.durak_id, en_yakin_tram_hedef.durak_id, arac_tipi="tram"
+            )
+
+            if yol_tramvay:
+                rota = []
+
+                # 🚖 Başlangıç konumu tramvay durağına 3 km'den uzaksa taksi
+                if mesafe_tram_bas > 3:
+                    rota.append(f"Başlangıç ➝ {en_yakin_tram_bas.ad} (🚖 Taksi ile {mesafe_tram_bas:.2f} km)")
+                elif mesafe_tram_bas > 0.05:
+                    rota.append(f"Başlangıç ➝ {en_yakin_tram_bas.ad} (🚶 Yürüyerek {mesafe_tram_bas:.2f} km)")
+
+                # 🚋 Tramvayla yolculuk
+                for adim in yol_tramvay:
+                    kaynak_ad = self.ulasim_grafi.duraklar[adim['kaynak']].ad
+                    hedef_ad = self.ulasim_grafi.duraklar[adim['hedef']].ad
+                    rota.append(f"{kaynak_ad} ➝ {hedef_ad}")
+
+                # 🚶 Hedef tramvay durağından hedefe yürüyüş (her zaman yürüyerek)
+                if mesafe_tram_hedef > 0.05:
+                    rota.append(f"{en_yakin_tram_hedef.ad} ➝ Hedef (🚶 Yürüyerek {mesafe_tram_hedef:.2f} km)")
+
+                rota_sonuclari["Sadece Tramvay"] = rota
 
         # 3️⃣ Karma sistem için zaten beklenen_tur yok, olduğu gibi kalabilir:
         mesafe_karma, yol_karma = self.otobus_tramvay_aktarma_hesapla(bas_durak.durak_id, hedef_durak.durak_id)
