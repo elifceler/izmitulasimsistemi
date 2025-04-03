@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox, scrolledtext
-import os
-global_yolcu = None
+from utils.factory import OdemeFactory, YolcuFactory
 
 dosya_yolu = r"C:\Users\batus\PycharmProjects\prolab_yeni\data\stops_cift_yonlu.json"
 
@@ -19,6 +18,7 @@ from models.arac import Taksi
 
 global_harita_verisi = {}
 
+
 def haritayi_ac():
     if "rota_adimlari" in global_harita_verisi and "ulasim_grafi" in global_harita_verisi:
         haritada_goster(global_harita_verisi["rota_adimlari"], global_harita_verisi["ulasim_grafi"])
@@ -27,29 +27,39 @@ def haritayi_ac():
 
 
 def arayuzu_baslat():
+    def girdileri_al():
+        return {
+            "baslat_lat": float(entry_baslat_lat.get()),
+            "baslat_lon": float(entry_baslat_lon.get()),
+            "hedef_lat": float(entry_hedef_lat.get()),
+            "hedef_lon": float(entry_hedef_lon.get()),
+            "isim": entry_isim.get(),
+            "yas": int(entry_yas.get()),
+            "yolcu_tipi": YolcuTipi[yolcu_var.get().upper()],
+            "kentkart": float(entry_kentkart.get()),
+            "mobil": float(entry_mobil.get()),
+            "kredi": float(entry_kredi.get()),
+            "nakit": float(entry_nakit.get())
+        }
 
     def hesapla():
         global global_yolcu
         try:
-            baslat_lat = float(entry_baslat_lat.get())
-            baslat_lon = float(entry_baslat_lon.get())
-            hedef_lat = float(entry_hedef_lat.get())
-            hedef_lon = float(entry_hedef_lon.get())
-            isim = entry_isim.get()
-            yas = int(entry_yas.get())
-            yolcu_tipi_str = yolcu_var.get()
-            yolcu_tipi = YolcuTipi[yolcu_tipi_str.upper()]
+            veri = girdileri_al()
 
-            kentkart = float(entry_kentkart.get())
-            mobil = float(entry_mobil.get())
-            kredi = float(entry_kredi.get())
-            nakit = float(entry_nakit.get())
+            baslat_lat = veri["baslat_lat"]
+            baslat_lon = veri["baslat_lon"]
+            hedef_lat = veri["hedef_lat"]
+            hedef_lon = veri["hedef_lon"]
+            isim = veri["isim"]
+            yas = veri["yas"]
+            yolcu_tipi = veri["yolcu_tipi"]
+            kentkart = veri["kentkart"]
+            mobil = veri["mobil"]
+            kredi = veri["kredi"]
+            nakit = veri["nakit"]
 
-            odeme_yontemleri = []
-            if kentkart > 0: odeme_yontemleri.append(KentkartOdeme(kentkart))
-            if mobil > 0: odeme_yontemleri.append(MobilOdeme(mobil))
-            if kredi > 0: odeme_yontemleri.append(KrediKartiOdeme(kredi))
-            if nakit > 0: odeme_yontemleri.append(NakitOdeme(nakit))
+            odeme_yontemleri = OdemeFactory.olustur(kentkart, mobil, kredi, nakit)
 
             if not odeme_yontemleri:
                 messagebox.showerror("Hata", "En az bir ödeme yöntemi girilmelidir.")
@@ -57,23 +67,7 @@ def arayuzu_baslat():
 
             cuzdan = Cuzdan(odeme_yontemleri)
 
-            if yolcu_tipi == YolcuTipi.GENEL:
-                yolcu = GenelYolcu(isim, yas, cuzdan)
-            elif yolcu_tipi == YolcuTipi.OGRENCI:
-                yolcu = Ogrenci(isim, yas, cuzdan)
-            elif yolcu_tipi == YolcuTipi.YASLI:
-                if global_yolcu and isinstance(global_yolcu, Yasli):
-                    yolcu = global_yolcu
-                    yolcu.cuzdan = cuzdan
-                else:
-                    yolcu = Yasli(isim, yas, cuzdan)
-                    global_yolcu = yolcu
-            elif yolcu_tipi == YolcuTipi.OGRETMEN:
-                yolcu = Ogretmen(isim, yas, cuzdan)
-            elif yolcu_tipi == YolcuTipi.SEHIT_GAZI_YAKINI:
-                yolcu = SehitGaziYakini(isim, yas, cuzdan)
-            elif yolcu_tipi == YolcuTipi.ENGELLI:
-                yolcu = Engelli(isim, yas, cuzdan)
+            yolcu = YolcuFactory.olustur(yolcu_tipi, isim, yas, cuzdan)
 
             veri_okuyucu = VeriOkuyucu(dosya_yolu)
             ulasim_grafi = veri_okuyucu.grafigi_kur_jsondan()
