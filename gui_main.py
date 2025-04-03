@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, scrolledtext
 from utils.factory import OdemeFactory, YolcuFactory
 
-dosya_yolu = r"C:\Users\batus\PycharmProjects\prolab_yeni\data\stops_cift_yonlu.json"
+dosya_yolu = r"C:\Users\ASUS1\PycharmProjects\PythonProject6\data\stops_cift_yonlu.json"
 
 # services klasöründen
 from models.veri import VeriOkuyucu
@@ -235,7 +235,13 @@ def arayuzu_baslat():
                 etiket_str = f" ({', '.join(etiket)})" if etiket else ""
                 tag_to_use = "taksi_blok" if "Taksi" in baslik else "normal"
 
-                text_output.insert(tk.END, f"\n→ {baslik} Rota{etiket_str}:\n", "alternatif")
+                if "Sadece Tramvay" in baslik:
+                    baslik_gosterim = f"{baslik} Rota (Rahat ve Dengeli Bir Ulaşım Seçeneği)"
+                else:
+                    baslik_gosterim = f"{baslik} Rota"
+
+                text_output.insert(tk.END, f"\n→ {baslik_gosterim}{etiket_str}:\n", "alternatif")
+
                 for i, adim in enumerate(adimlar, start=1):
                     text_output.insert(tk.END, f"  {i}. {adim}\n", tag_to_use)
 
