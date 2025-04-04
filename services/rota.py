@@ -217,11 +217,13 @@ class RotaHesaplayici:
                     hedef_ad = self.ulasim_grafi.duraklar[adim['hedef']].ad
                     rota.append(f"{kaynak_ad} ➝ {hedef_ad}")
 
-                # 🚶 Hedef tramvay durağından hedefe yürüyüş (her zaman yürüyerek)
-                if mesafe_tram_hedef > 0.05:
+                # 🚖 veya 🚶 Hedef tramvay durağından hedefe ulaşım
+                if mesafe_tram_hedef > 3:
+                    rota.append(f"{en_yakin_tram_hedef.ad} ➝ Hedef (🚖 Taksi ile {mesafe_tram_hedef:.2f} km)")
+                elif mesafe_tram_hedef > 0.05:
                     rota.append(f"{en_yakin_tram_hedef.ad} ➝ Hedef (🚶 Yürüyerek {mesafe_tram_hedef:.2f} km)")
 
-                rota_sonuclari["Sadece Tramvay"] = rota
+                rota_sonuclari["Tramvay Ağırlıklı Rota (Rahat ve Dengeli Bir Ulaşım Seçeneği)"] = rota
 
         # 3️⃣ Karma sistem için zaten beklenen_tur yok, olduğu gibi kalabilir:
         mesafe_karma, yol_karma = self.otobus_tramvay_aktarma_hesapla(bas_durak.durak_id, hedef_durak.durak_id)

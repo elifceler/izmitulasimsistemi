@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, scrolledtext
 from utils.factory import OdemeFactory, YolcuFactory
 
-dosya_yolu = r"C:\Users\ASUS1\PycharmProjects\PythonProject6\data\stops_cift_yonlu.json"
+dosya_yolu = r"C:\Users\batus\PycharmProjects\moduler-ulasimsistemi2\data\stops_cift_yonlu.json"
 
 # services klasöründen
 from models.veri import VeriOkuyucu
